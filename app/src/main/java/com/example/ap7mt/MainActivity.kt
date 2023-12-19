@@ -1,12 +1,19 @@
 package com.example.ap7mt
 
+import android.content.Intent
+import android.media.Image
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,14 +27,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView=findViewById<TextView>(R.id.textView)
-        viewModel.refreshCharacter(50)
+        val textView1=findViewById<TextView>(R.id.textView1)
+        val imageView1=findViewById<ImageView>(R.id.imageView1)
+        val cardView=findViewById<CardView>(R.id.cardview)
+        cardView.setOnClickListener(){
+            val i=Intent(this,secondActivity::class.java)
+            startActivity(i)
+        }
+
+        viewModel.refreshCharacter(1)
         viewModel.characterByIdLiveData.observe(this){response->
             if (response==null){
                 return@observe
             }
             val name=response.name
-            textView.text=name
+            Picasso.get().load(response.image).into(imageView1)
+            textView1.text=name
         }
     }
 }
