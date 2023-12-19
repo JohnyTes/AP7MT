@@ -21,17 +21,32 @@ class MainActivity : AppCompatActivity() {
         val cardView=findViewById<CardView>(R.id.cardview)
         cardView.setOnClickListener(){
             val i=Intent(this,SecondActivity::class.java)
+            i.putExtra("passedData",1)
             startActivity(i)
         }
-
-        viewModel.refreshCharacter(1)
-        viewModel.characterByIdLiveData.observe(this){response->
-            if (response==null){
-                return@observe
-            }
-            val name=response.name
-            Picasso.get().load(response.image).into(imageView1)
-            textView1.text=name
+        val cardView2=findViewById<CardView>(R.id.cardview2)
+        cardView2.setOnClickListener(){
+            val i=Intent(this,SecondActivity::class.java)
+            i.putExtra("passedData",2)
+            startActivity(i)
+        }
+        val cardView3=findViewById<CardView>(R.id.cardview3)
+        cardView3.setOnClickListener(){
+            val i=Intent(this,SecondActivity::class.java)
+            i.putExtra("passedData",3)
+            startActivity(i)
+        }
+        val cardView4=findViewById<CardView>(R.id.cardview4)
+        cardView4.setOnClickListener(){
+            val i=Intent(this,SecondActivity::class.java)
+            i.putExtra("passedData",4)
+            startActivity(i)
+        }
+        val cardView5=findViewById<CardView>(R.id.cardview5)
+        cardView5.setOnClickListener(){
+            val i=Intent(this,SecondActivity::class.java)
+            i.putExtra("passedData",5)
+            startActivity(i)
         }
     }
 }

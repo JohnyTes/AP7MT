@@ -15,12 +15,13 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
+        val passedData = intent.getIntExtra("passedData",1)
         val textview_name=findViewById<TextView>(R.id.textViewName)
         val textview_origin=findViewById<TextView>(R.id.textViewOrigin)
         val textview_species=findViewById<TextView>(R.id.textViewSpecies)
         val textview_status=findViewById<TextView>(R.id.textViewStatus)
         val imageView1=findViewById<ImageView>(R.id.imageView)
-        viewModel.refreshCharacter(1)
+        viewModel.refreshCharacter(passedData)
         viewModel.characterByIdLiveData.observe(this){response->
             if (response==null){
                 return@observe
