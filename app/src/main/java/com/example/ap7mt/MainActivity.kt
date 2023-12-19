@@ -1,6 +1,7 @@
 package com.example.ap7mt
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -14,19 +15,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val textView=findViewById<TextView>(R.id.textView)
         val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://rickandmortyapi.com/api/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
         val rickAndMortyService: RickAndMortyService=retrofit.create(RickAndMortyService::class.java)
-        rickAndMortyService.getCharacterById().enqueue(object :Callback<Any>{
-            override fun onFailure(call: Call<Any>, t: Throwable) {
+        rickAndMortyService.getCharacterById(50).enqueue(object :Callback<getCharacterByIdResponse>{
+            override fun onFailure(call: Call<getCharacterByIdResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                TODO("Not yet implemented")
+            override fun onResponse(call: Call<getCharacterByIdResponse>, response: Response<getCharacterByIdResponse>) {
+                if(!response.isSuccessful){
+                    return
+                }
+                val body=response.body()!!
+                val name=body.name
+                textView.text=name
             }
         })
     }
