@@ -1,29 +1,25 @@
 package com.example.ap7mt
 
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
     val viewModel:SharedViewModel by lazy {
         ViewModelProvider(this).get(SharedViewModel::class.java)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val textView1=findViewById<TextView>(R.id.textView1)
-        val imageView1=findViewById<ImageView>(R.id.imageView1)
-        val cardView=findViewById<CardView>(R.id.cardview)
-        cardView.setOnClickListener(){
-            val i=Intent(this,SecondActivity::class.java)
-            startActivity(i)
-        }
-
+        setContentView(R.layout.activity_second)
+        val textview_name=findViewById<TextView>(R.id.textViewName)
+        val textview_origin=findViewById<TextView>(R.id.textViewOrigin)
+        val textview_species=findViewById<TextView>(R.id.textViewSpecies)
+        val textview_status=findViewById<TextView>(R.id.textViewStatus)
+        val imageView1=findViewById<ImageView>(R.id.imageView)
         viewModel.refreshCharacter(1)
         viewModel.characterByIdLiveData.observe(this){response->
             if (response==null){
@@ -31,7 +27,10 @@ class MainActivity : AppCompatActivity() {
             }
             val name=response.name
             Picasso.get().load(response.image).into(imageView1)
-            textView1.text=name
+            textview_name.text=name
+            textview_origin.text=response.origin.name
+            textview_species.text=response.species
+            textview_status.text=response.status
         }
     }
 }
